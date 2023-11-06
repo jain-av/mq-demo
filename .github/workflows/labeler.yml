@@ -1,0 +1,12 @@
+name: Label issues
+on:
+  pull_request:
+    types: [ labeled ]
+jobs:
+  label_issues:
+    if: ${{ github.event.label.name == 'hello' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: world

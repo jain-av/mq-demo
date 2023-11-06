@@ -1,0 +1,19 @@
+name: create_check
+
+on: deployment_status
+
+jobs:
+  build:
+    if: ${{ github.event.deployment_status.state == 'success' }}
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - uses: LouisBrunner/checks-action@v1.1.1
+      if: always()
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        name: deploy_complete
+        conclusion: ${{ job.status }}
+        output: |
+          {"summary": "deployment is complete"}
