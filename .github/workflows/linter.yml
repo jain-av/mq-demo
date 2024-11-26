@@ -1,6 +1,6 @@
 name: Python application
 
-on: [push]
+on: [pull_request]
   
 # concurrency:
 #   group: build-${{ github.ref }}
@@ -8,6 +8,7 @@ on: [push]
 
 jobs:
   build:
+    if: startsWith(github.head_ref,'mq-tmp-') != true
     runs-on: ubuntu-latest
 
     steps:
