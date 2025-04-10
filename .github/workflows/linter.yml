@@ -21,7 +21,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         #pip install -r src/requirements.txt
-        sleep 20
+        sleep 10
     - name: Lint with flake8
       run: |
         pip install flake8
