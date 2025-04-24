@@ -15,6 +15,14 @@ on:
         description: "Version to deploy"
         required: true
         type: string
+      aviator_hello_world:
+        description: "custom var 1"
+        required: false
+        type: string
+      aviator_world_hello:
+        description: "custom var 1"
+        required: false
+        type: string
 
 jobs:
   build:
@@ -39,3 +47,6 @@ jobs:
         echo "Deployment ID: ${{inputs.aviator_deployment_id}}"
         echo "Commit SHA: ${{inputs.aviator_release_cut_commit_hash}}"
         echo "RC version: ${{inputs.aviator_release_candidate_version}}"
+        echo "Custom var 1: aviator_hello_world: ${{inputs.aviator_hello_world}}"
+        echo "Custom var 2: aviator_world_hello: ${{inputs.aviator_world_hello}}"
+        
