@@ -1,19 +1,52 @@
 name: create_check
 
-on: deployment_status
+on:
+  workflow_dispatch:
+    inputs:
+      aviator_deployment_id:
+        description: "Database ID of deployment"
+        required: false
+        type: string
+      aviator_release_cut_commit_hash:
+        description: "Commit SHA, branch name, or tag of the HEAD"
+        required: false
+        type: string
+      aviator_release_candidate_version:
+        description: "Version to deploy"
+        required: true
+        type: string
+      aviator_hello_world:
+        description: "custom var 1"
+        required: false
+        type: string
+      aviator_world_hello:
+        description: "custom var 1"
+        required: false
+        type: string
 
 jobs:
   build:
-    if: ${{ github.event.deployment_status.state == 'success' }}
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
-    - uses: LouisBrunner/checks-action@v1.1.1
-      if: always()
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v1
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        name: deploy_complete
-        conclusion: ${{ job.status }}
-        output: |
-          {"summary": "deployment is complete"}
+        python-version: 3.12
+    - if: inputs.aviator_deployment_id != ''
+      name: Sync workflow run ID via Aviator API
+      uses: fjogeleit/http-request-action@v1
+      with:
+        url: '${{ vars.AVIATOR_API_HOST }}/api/v1/sync-deploy-github-action'
+        method: 'POST'
+        bearerToken: ${{ secrets.AVIATOR_API_TOKEN }}
+        data: '{"deployment_id": "${{ inputs.aviator_deployment_id }}", "workflow_run_id": "${{ github.run_id }}"}'
+    - name: Print values
+      run: |
+        echo "Deployment ID: ${{inputs.aviator_deployment_id}}"
+        echo "Commit SHA: ${{inputs.aviator_release_cut_commit_hash}}"
+        echo "RC version: ${{inputs.aviator_release_candidate_version}}"
+        echo "Custom var 1: aviator_hello_world: ${{inputs.aviator_hello_world}}"
+        echo "Custom var 2: aviator_world_hello: ${{inputs.aviator_world_hello}}"
+        
