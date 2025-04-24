@@ -26,8 +26,16 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: 3.12
+    - if: inputs.aviator_deployment_id != ''
+      name: Sync workflow run ID via Aviator API
+      uses: fjogeleit/http-request-action@v1
+      with:
+        url: '${{ vars.AVIATOR_API_HOST }}/api/v1/sync-deploy-github-action'
+        method: 'POST'
+        bearerToken: ${{ secrets.AVIATOR_API_TOKEN }}
+        data: '{"deployment_id": "${{ inputs.aviator_deployment_id }}", "workflow_run_id": "${{ github.run_id }}"}'
     - name: Print values
       run: |
         echo "Deployment ID: ${{inputs.aviator_deployment_id}}"
-        echo "Commit SHA: ${{inputs.aviator_release_cut_commit_sha}}"
+        echo "Commit SHA: ${{inputs.aviator_release_cut_commit_hash}}"
         echo "RC version: ${{inputs.aviator_release_candidate_version}}"
