@@ -30,3 +30,31 @@ function inline_image {
 }
 
 inline_image 'artifact://artifacts/image.gif' 'Rainbows'
+
+# Create a virtual environment if it doesn't exist
+if [ ! -d "venv" ]; then
+    echo "Creating virtual environment..."
+    python3 -m venv venv
+fi
+
+# Activate virtual environment
+echo "Activating virtual environment..."
+source venv/bin/activate
+
+# Upgrade pip
+echo "Upgrading pip..."
+pip install --upgrade pip
+
+# Install pytest
+echo "Installing pytest..."
+pip install pytest
+
+echo ""
+echo "Running tests..."
+pytest test_math_operations.py -v
+
+# Deactivate virtual environment
+deactivate
+
+echo ""
+echo "Tests completed!"
