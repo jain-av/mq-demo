@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Script to set up environment and run a single pytest file
-# Usage: ./run_single_test.sh <test_file.py>
+# Usage: ./pytest_single.sh <test_file.py>
 
 set -e  # Exit on any error
 
