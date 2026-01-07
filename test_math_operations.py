@@ -15,4 +15,4 @@ def test_add_zero():
     assert add(5, 0) == 5
 
 def test_add_floats():
-    assert add(2.5, 3.7) == 6.1
+    assert add(2.5, 3.7) == 6.2
