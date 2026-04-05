@@ -5,3 +5,5 @@ def add(a, b):
 def subtract(a, b):
     """Subtract b from a."""
     return a - b
+
+print("Hello, World!")
