@@ -18,3 +18,7 @@ ddf
 
 - `pytest: command not found`: ensure the virtual environment is activated via `source venv/bin/activate`
 - `ModuleNotFoundError: No module named 'pytest'`: run `pip install pytest` inside the activated virtual environment
+
+## Contributing
+
+See **CONTRIBUTING.md** for contribution guidelines.
