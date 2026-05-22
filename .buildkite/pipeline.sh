@@ -18,4 +18,6 @@ for test_file in $test_files; do
   echo "  - label: \":pytest: ${base}\""
   echo "    key: \"${base}\""
   echo "    command: \"./pytest_single.sh ${test_file}\""
+  echo "    agents:"
+  echo "      queue: \"ankit-laptop-test\""
 done
