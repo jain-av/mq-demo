@@ -8,7 +8,14 @@ echo "steps:"
 
 test_files=$(find . -maxdepth 1 -name "test_*.py" -type f | sort)
 
-# add a new command step to run the tests in each test directory
+# add a new command step to run the tests in each test directory.
+# Each step gets an explicit `key:` so Buildkite reports per-step GitHub
+# statuses as `buildkite/<pipeline>/<step-key>`. Runbooks relies on the
+# step-key segment to scope log fetching to the failing job
+# (see https://github.com/aviator-co/mergeit/pull/12044).
 for test_file in $test_files; do
-  echo "  - command: \"./pytest_single.sh "${test_file}"\""
+  base=$(basename "${test_file}" .py)
+  echo "  - label: \":pytest: ${base}\""
+  echo "    key: \"${base}\""
+  echo "    command: \"./pytest_single.sh ${test_file}\""
 done
