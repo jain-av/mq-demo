@@ -1,0 +1,28 @@
+name: Final Gate (failure)
+
+# A no-op final-gate workflow that always fails. Use this in `.aviator/config.yml`
+# to exercise the failure / cascade-block path of the MergeQueue final-gates
+# feature.
+
+on:
+  workflow_dispatch:
+    inputs:
+      associated_prs:
+        description: "JSON-encoded list of PR numbers being merged"
+        required: true
+      head_sha:
+        description: "Commit SHA of the bot PR being evaluated"
+        required: true
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Report inputs
+        run: |
+          echo "Dispatched by Aviator for PRs: ${{ inputs.associated_prs }}"
+          echo "Bot PR head SHA: ${{ inputs.head_sha }}"
+      - name: Fail
+        run: |
+          echo "Final gate failing on purpose"
+          exit 1

@@ -1,0 +1,22 @@
+name: Final Gate (slow)
+
+# A final-gate workflow that sleeps long enough to exercise Aviator's timeout
+# enforcement. Pair with a short `timeout_mins` in `.aviator/config.yml`
+# (e.g. 1) to trigger the FINAL_GATE_TIMED_OUT path.
+
+on:
+  workflow_dispatch:
+    inputs:
+      associated_prs:
+        description: "JSON-encoded list of PR numbers being merged"
+        required: true
+      head_sha:
+        description: "Commit SHA of the bot PR being evaluated"
+        required: true
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sleep past the timeout
+        run: sleep 600
