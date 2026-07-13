@@ -1,0 +1,67 @@
+/*
+ * Design system tokens.
+ * Single source of truth for all design-system visual values (color,
+ * spacing, typography, radius, shadow). Components must consume these
+ * custom properties rather than hard-coding values.
+ */
+
+:root {
+  /* Color: primary */
+  --ds-color-primary-50: #eef2ff;
+  --ds-color-primary-100: #e0e7ff;
+  --ds-color-primary-500: #4f46e5;
+  --ds-color-primary-600: #4338ca;
+  --ds-color-primary-700: #3730a3;
+
+  /* Color: neutral */
+  --ds-color-neutral-0: #ffffff;
+  --ds-color-neutral-50: #f9fafb;
+  --ds-color-neutral-100: #f3f4f6;
+  --ds-color-neutral-200: #e5e7eb;
+  --ds-color-neutral-300: #d1d5db;
+  --ds-color-neutral-400: #9ca3af;
+  --ds-color-neutral-500: #6b7280;
+  --ds-color-neutral-600: #4b5563;
+  --ds-color-neutral-700: #374151;
+  --ds-color-neutral-800: #1f2937;
+  --ds-color-neutral-900: #111827;
+
+  /* Color: danger */
+  --ds-color-danger-50: #fef2f2;
+  --ds-color-danger-100: #fee2e2;
+  --ds-color-danger-500: #dc2626;
+  --ds-color-danger-600: #b91c1c;
+
+  /* Color: background / text (semantic aliases) */
+  --ds-color-background: var(--ds-color-neutral-0);
+  --ds-color-background-subtle: var(--ds-color-neutral-50);
+  --ds-color-text: var(--ds-color-neutral-900);
+  --ds-color-text-muted: var(--ds-color-neutral-500);
+  --ds-color-border: var(--ds-color-neutral-200);
+
+  /* Spacing scale */
+  --ds-space-xs: 4px;
+  --ds-space-sm: 8px;
+  --ds-space-md: 16px;
+  --ds-space-lg: 24px;
+  --ds-space-xl: 32px;
+
+  /* Typography */
+  --ds-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
+  --ds-font-size-sm: 13px;
+  --ds-font-size-md: 15px;
+  --ds-font-size-lg: 20px;
+  --ds-font-weight-regular: 400;
+  --ds-font-weight-bold: 600;
+
+  /* Border radius */
+  --ds-radius-sm: 4px;
+  --ds-radius-md: 8px;
+  --ds-radius-lg: 12px;
+
+  /* Shadows */
+  --ds-shadow-sm: 0 1px 2px rgba(17, 24, 39, 0.06);
+  --ds-shadow-md: 0 4px 12px rgba(17, 24, 39, 0.1);
+  --ds-shadow-lg: 0 12px 32px rgba(17, 24, 39, 0.14);
+}
