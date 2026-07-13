@@ -1,0 +1,165 @@
+/*
+ * Component styles for the design system.
+ * Values are sourced exclusively from the custom properties defined in
+ * tokens.css — no hard-coded colors, spacing, or typography here.
+ */
+
+/* Button */
+
+.ds-button {
+  font-family: var(--ds-font-family);
+  font-size: var(--ds-font-size-md);
+  font-weight: var(--ds-font-weight-bold);
+  border-radius: var(--ds-radius-md);
+  border: 1px solid transparent;
+  padding: var(--ds-space-sm) var(--ds-space-md);
+  cursor: pointer;
+  box-shadow: var(--ds-shadow-sm);
+}
+
+.ds-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  box-shadow: none;
+}
+
+.ds-button--primary {
+  background: var(--ds-color-primary-500);
+  color: var(--ds-color-neutral-0);
+}
+
+.ds-button--primary:hover:not(:disabled) {
+  background: var(--ds-color-primary-600);
+}
+
+.ds-button--secondary {
+  background: var(--ds-color-neutral-100);
+  color: var(--ds-color-text);
+  border-color: var(--ds-color-border);
+}
+
+.ds-button--secondary:hover:not(:disabled) {
+  background: var(--ds-color-neutral-200);
+}
+
+.ds-button--danger {
+  background: var(--ds-color-danger-500);
+  color: var(--ds-color-neutral-0);
+}
+
+.ds-button--danger:hover:not(:disabled) {
+  background: var(--ds-color-danger-600);
+}
+
+/* Text field */
+
+.ds-text-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-xs);
+  margin-bottom: var(--ds-space-md);
+  font-family: var(--ds-font-family);
+}
+
+.ds-text-field__label {
+  font-size: var(--ds-font-size-sm);
+  font-weight: var(--ds-font-weight-bold);
+  color: var(--ds-color-text);
+}
+
+.ds-text-field__input {
+  font-family: var(--ds-font-family);
+  font-size: var(--ds-font-size-md);
+  color: var(--ds-color-text);
+  background: var(--ds-color-background);
+  border: 1px solid var(--ds-color-border);
+  border-radius: var(--ds-radius-sm);
+  padding: var(--ds-space-sm);
+}
+
+.ds-text-field__input:focus {
+  outline: 2px solid var(--ds-color-primary-500);
+  outline-offset: 1px;
+}
+
+.ds-text-field__message {
+  font-size: var(--ds-font-size-sm);
+  color: var(--ds-color-danger-600);
+  min-height: 1em;
+}
+
+.ds-text-field--invalid .ds-text-field__input {
+  border-color: var(--ds-color-danger-500);
+}
+
+/* Toggle */
+
+.ds-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ds-space-md);
+  padding: var(--ds-space-sm) 0;
+  font-family: var(--ds-font-family);
+}
+
+.ds-toggle__label {
+  font-size: var(--ds-font-size-md);
+  color: var(--ds-color-text);
+}
+
+.ds-toggle__control {
+  width: 40px;
+  height: 22px;
+  border-radius: var(--ds-radius-lg);
+  border: 1px solid var(--ds-color-border);
+  background: var(--ds-color-neutral-200);
+  cursor: pointer;
+  position: relative;
+  padding: 0;
+}
+
+.ds-toggle__control::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: var(--ds-radius-lg);
+  background: var(--ds-color-neutral-0);
+  box-shadow: var(--ds-shadow-sm);
+  transition: transform 0.15s ease;
+}
+
+.ds-toggle__control--checked {
+  background: var(--ds-color-primary-500);
+}
+
+.ds-toggle__control--checked::after {
+  transform: translateX(18px);
+}
+
+/* Card */
+
+.ds-card {
+  background: var(--ds-color-background);
+  border: 1px solid var(--ds-color-border);
+  border-radius: var(--ds-radius-lg);
+  box-shadow: var(--ds-shadow-md);
+  padding: var(--ds-space-lg);
+  margin-bottom: var(--ds-space-lg);
+  font-family: var(--ds-font-family);
+}
+
+.ds-card__title {
+  font-size: var(--ds-font-size-lg);
+  font-weight: var(--ds-font-weight-bold);
+  color: var(--ds-color-text);
+  margin: 0 0 var(--ds-space-md) 0;
+}
+
+.ds-card__body {
+  display: flex;
+  flex-direction: column;
+}
