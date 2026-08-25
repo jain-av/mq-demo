@@ -1,0 +1,38 @@
+name: Flaky investigation e2e
+
+# Runs on every PR, including the draft PRs MergeQueue builds, and fails with
+# realistic pytest output so the investigation has a failure to read.
+
+on:
+  pull_request:
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run tests
+        run: |
+          cat <<'OUT'
+          ============================= test session starts ==============================
+          platform linux -- Python 3.11.9, pytest-8.2.0
+          collected 3 items
+
+          test_math_operations.py::test_add PASSED
+          test_math_operations.py::test_subtract PASSED
+          test_math_operations.py::test_multiply FAILED
+
+          =================================== FAILURES ===================================
+          ________________________________ test_multiply _________________________________
+
+              def test_multiply():
+                  result = multiply(3, 4)
+          >       assert result == 12
+          E       AssertionError: assert 11 == 12
+
+          math_operations.py:14: AssertionError
+          =========================== short test summary info ============================
+          FAILED test_math_operations.py::test_multiply - AssertionError: assert 11 == 12
+          ========================= 1 failed, 2 passed in 0.42s ==========================
+          OUT
+          exit 1
