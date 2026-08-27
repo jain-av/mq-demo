@@ -13,3 +13,8 @@ def multiply(a, b):
 def divide(a, b):
     """Divide a by b."""
     return a / b
+
+
+def modulo(a, b):
+    """Remainder of a divided by b."""
+    return a % b
