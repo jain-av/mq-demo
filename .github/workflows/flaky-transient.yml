@@ -19,9 +19,7 @@ jobs:
       - name: Run tests
         run: |
           if [ "${{ github.run_attempt }}" = "1" ]; then
-            cat <<'OUT'
-            Pulling image ghcr.io/acme/test-runner:24.04
-            OUT
+            echo "Pulling image ghcr.io/acme/test-runner:24.04"
             echo "##[error]failed to pull image ghcr.io/acme/test-runner:24.04: net/http: TLS handshake timeout"
             exit 1
           fi
