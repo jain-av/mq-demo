@@ -1,0 +1,26 @@
+name: Flaky transient check
+
+# A check that genuinely flakes: it fails the first time a commit is built and
+# passes when the same commit is run again. Keyed on run_attempt rather than
+# randomness so the flake is reproducible -- one rerun always clears it.
+#
+# This is the fixture for the exonerate path. The failure output is written to
+# look like infrastructure so a classifier reading it should conclude a rerun
+# would pass, and the pass on the second attempt records a real flake event.
+
+on:
+  pull_request:
+
+jobs:
+  flaky-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run tests
+        run: |
+          if [ "${{ github.run_attempt }}" = "1" ]; then
+            echo "Pulling image ghcr.io/acme/test-runner:24.04"
+            echo "##[error]failed to pull image ghcr.io/acme/test-runner:24.04: net/http: TLS handshake timeout"
+            exit 1
+          fi
+          echo "Image pulled on attempt ${{ github.run_attempt }}; tests passed"
