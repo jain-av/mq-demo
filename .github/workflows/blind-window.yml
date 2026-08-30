@@ -1,0 +1,22 @@
+# E2E fixture for the check-suite admission gate.
+#
+# A run blocked behind another run in the same concurrency group sits at
+# run-level "queued" without dispatching jobs, so its check suite exists with
+# latest_check_runs_count == 0 for as long as the holding run lasts. That is the
+# blind window the gate is built for, held open long enough to observe.
+name: Blind Window
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, labeled, unlabeled]
+
+concurrency:
+  group: blind-window-${{ github.head_ref }}
+  cancel-in-progress: false
+
+jobs:
+  hold:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hold the concurrency group
+        run: sleep 2400
