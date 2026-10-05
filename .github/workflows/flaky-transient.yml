@@ -4,9 +4,14 @@ name: Flaky transient check
 # passes when the same commit is run again. Keyed on run_attempt rather than
 # randomness so the flake is reproducible -- one rerun always clears it.
 #
-# This is the fixture for the exonerate path. The failure output is written to
-# look like infrastructure so a classifier reading it should conclude a rerun
-# would pass, and the pass on the second attempt records a real flake event.
+# Only the queue's draft PR flakes. Failing on the author's own PR too would
+# block it from ever being queued, since this check is required -- and a PR made
+# green to get past that is then merged on its own result, so the queue never
+# sees a failure to investigate.
+#
+# Keep this explanation out of the `run:` block below: GitHub includes the raw
+# script in the job log, so anything written there is read by the classifier
+# that inspects the failure.
 
 on:
   pull_request:
@@ -17,19 +22,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Run tests
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
         run: |
-          # Only the queue's draft PR flakes, and only on its first attempt.
-          # Failing on the author's own PR too would block it from ever being
-          # queued, since this check is required -- and a PR made green to get
-          # past that is then merged on its own result, so the queue never sees
-          # a failure to investigate.
-          case "${{ github.head_ref }}" in
-            mq-bot-*) on_draft=yes ;;
-            *)        on_draft=no  ;;
+          case "$HEAD_REF" in
+            mq-bot-*) queued=yes ;;
+            *)        queued=no  ;;
           esac
-          if [ "$on_draft" = "yes" ] && [ "${{ github.run_attempt }}" = "1" ]; then
+          if [ "$queued" = "yes" ] && [ "$RUN_ATTEMPT" = "1" ]; then
             echo "Pulling image ghcr.io/acme/test-runner:24.04"
             echo "##[error]failed to pull image ghcr.io/acme/test-runner:24.04: net/http: TLS handshake timeout"
             exit 1
           fi
-          echo "Image pulled on attempt ${{ github.run_attempt }} (draft=$on_draft); tests passed"
+          echo "Image pulled on attempt $RUN_ATTEMPT; tests passed"
