@@ -18,9 +18,18 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run tests
         run: |
-          if [ "${{ github.run_attempt }}" = "1" ]; then
+          # Only the queue's draft PR flakes, and only on its first attempt.
+          # Failing on the author's own PR too would block it from ever being
+          # queued, since this check is required -- and a PR made green to get
+          # past that is then merged on its own result, so the queue never sees
+          # a failure to investigate.
+          case "${{ github.head_ref }}" in
+            mq-bot-*) on_draft=yes ;;
+            *)        on_draft=no  ;;
+          esac
+          if [ "$on_draft" = "yes" ] && [ "${{ github.run_attempt }}" = "1" ]; then
             echo "Pulling image ghcr.io/acme/test-runner:24.04"
             echo "##[error]failed to pull image ghcr.io/acme/test-runner:24.04: net/http: TLS handshake timeout"
             exit 1
           fi
-          echo "Image pulled on attempt ${{ github.run_attempt }}; tests passed"
+          echo "Image pulled on attempt ${{ github.run_attempt }} (draft=$on_draft); tests passed"
