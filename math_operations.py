@@ -18,3 +18,9 @@ def clamp(value, low, high):
     if low > high:
         raise ValueError(f"empty range: [{low}, {high}]")
     return max(low, min(value, high))
+
+def mean(values):
+    """Arithmetic mean of a non-empty sequence."""
+    if not values:
+        raise ValueError("mean of an empty sequence")
+    return sum(values) / len(values)
