@@ -8,6 +8,9 @@ name: Flaky transient check
 # actually recurs in CI -- so the log a classifier reads is a real pytest
 # traceback rather than infrastructure chatter. What makes it reproducible
 # lives in flaky_demo/conftest.py, out of the failing test's own traceback.
+#
+# Dormant unless the FLAKE_ARMED repository variable is "1", so the suite can be
+# landed and left in place without flaking every draft the queue builds.
 
 on:
   pull_request:
@@ -25,6 +28,7 @@ jobs:
       # log is the evidence under test.
       - name: Run tests
         env:
+          FLAKE_ARMED: ${{ vars.FLAKE_ARMED }}
           HEAD_REF: ${{ github.head_ref }}
           RUN_ATTEMPT: ${{ github.run_attempt }}
         run: python -m pytest flaky_demo -v --tb=short

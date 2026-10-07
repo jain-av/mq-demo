@@ -14,6 +14,8 @@ _SLOW_REFRESH_SECONDS = 30.0
 
 
 def _refresh_interval() -> float:
+    if os.environ.get("FLAKE_ARMED") != "1":
+        return 0.0
     on_draft = os.environ.get("HEAD_REF", "").startswith("mq-bot-")
     first_attempt = os.environ.get("RUN_ATTEMPT", "1") == "1"
     return _SLOW_REFRESH_SECONDS if on_draft and first_attempt else 0.0
