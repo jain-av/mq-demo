@@ -13,3 +13,8 @@ def multiply(a, b):
 def divide(a, b):
     """Divide a by b."""
     return a / b
+def clamp(value, low, high):
+    """Constrain value to the inclusive range [low, high]."""
+    if low > high:
+        raise ValueError(f"empty range: [{low}, {high}]")
+    return max(low, min(value, high))
