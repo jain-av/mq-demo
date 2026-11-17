@@ -12,7 +12,10 @@ def multiply(a, b):
 
 def divide(a, b):
     """Divide a by b."""
+    if b == 0:
+        raise ValueError(f"cannot divide {a} by zero")
     return a / b
+
 def clamp(value, low, high):
     """Constrain value to the inclusive range [low, high]."""
     if low > high:
