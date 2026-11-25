@@ -7,7 +7,7 @@ set -eu
 # failing one, which would fail every build.
 cat <<'YAML'
 agents:
-  queue: aviator-ci
+  queue: aviator-ci-local
 steps:
   - label: "flaky_demo"
     command: "./pytest_single.sh flaky_demo"
