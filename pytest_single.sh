@@ -20,7 +20,9 @@ AVIATOR_CI_VERSION=v0.1.0
 os=$(uname -s | tr '[:upper:]' '[:lower:]')
 arch=$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/')
 bin="aviator-ci_${os}_${arch}"
-if [ ! -x "./$bin" ]; then
+if [ -n "${AVIATOR_CI_BIN:-}" ]; then
+    cp "$AVIATOR_CI_BIN" "./$bin"
+elif [ ! -x "./$bin" ]; then
     base="https://github.com/aviator-co/ci-uploader/releases/download/$AVIATOR_CI_VERSION"
     curl -fsSLO "$base/$bin"
     curl -fsSL "$base/checksums.txt" | grep " $bin\$" | shasum -a 256 -c -
@@ -51,4 +53,5 @@ echo "Running: $target"
     --build-url "$BUILDKITE_BUILD_URL" \
     --check "buildkite/$BUILDKITE_PIPELINE_SLUG" \
     --junit "$report" \
+    --quarantine \
     -- python -m pytest "$target" -v --tb=short --junitxml="$report"
