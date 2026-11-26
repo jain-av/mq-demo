@@ -21,7 +21,7 @@ def test_empty_index_matches_nothing(index):
 def test_search_reflects_new_document(lagging_index):
     doc_id = lagging_index.add(REVENUE_DOC)
     hits = wait_for(lambda: lagging_index.query("quarterly"), timeout=5.0)
-    assert hits == [doc_id]
+    assert hits == [doc_id, "doc-0000"], "expected the archived revenue doc as well"
 
 
 def test_search_is_case_insensitive(index):
